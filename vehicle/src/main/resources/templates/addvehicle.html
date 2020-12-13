@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>NewVehicle</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    </head>
+    <body>
+    
+    <div class="container">
+       <h1>ADD NEW VEHICLE</h1>
+  <div class="row">
+    <div class="col s12 m6">
+      <div class="card grey lighten-3">
+        <div class="card-content black-text">
+          
+          <span class="card-title">Vehicle</span>
+          
+        <div class="row">
+            
+        <form  action="addvehicles" method="POST">
+            
+
+<div class="row">
+            <div class="input-field col s6">
+              <input placeholder="BrandName" id="name" type="text" class="validate" name="brand" required>
+              <label for="username">BrandName</label>
+            </div>
+        </div>
+ 
+    
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="model" type="text" class="validate" name="model">
+          <label for="model">Model</label>
+          <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+        </div>
+      </div>
+            
+                 <div class="row">
+        <div class="input-field col s6">
+        <input id="m" name="mileage" type="text" class="validate"  required/>
+      
+      <label for="m">Mileage</label>
+      
+    
+    </div>
+        </div>
+<div class="row">
+            <div class="input-field col s6">
+              <input placeholder="Engine" id="engine" type="text" class="validate" name="engine" required>
+              <label for="username">Engine</label>
+            </div>
+        </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="price" type="text" class="validate" name="price" required>
+              <label for="price">Price</label>
+            </div>
+          </div>
+ 
+           <div class="row">
+            <div class="input-field col s6">
+              <input id="quantity" type="text" class="validate" name="quantity" min="0" max="30" required>
+              <label for="quantity">Quantity</label>
+            </div>
+          </div>
+ 
+ <div class="row">
+            <div class="input-field col s6">
+           
+           <select name="transmission_type" id="type" >
+<option value="Automatic">Automatic</option>
+<option value="Automatic/Manual">Automatic/Manual</option>
+ </select>
+ <label>TranssmissionType</label>          
+</div></div> 
+ 
+ 
+ 
+ 
+          <button class="btn waves-effect waves-light green lighten-1" type="submit" name="action">Submit
+          </button>
+        </form>
+      </div>
+         
+          </div>
+        <div class="card-action">
+          
+          <a href="/user/forgotPassword"></a>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+ 
+<script>
+$(document).ready(function(){
+    $('select').formSelect();
+  });
+     
+</script>
+    </body>
+</html>

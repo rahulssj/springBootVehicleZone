@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>VehicleZone</title>
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+         
+  </head>
+
+  <body>
+  
+  <nav>
+    <div class="nav-wrapper blue darken-3">
+    <div class="container">
+    
+      <a href="#" class="brand-logo">VehicleZone</a>
+      <a href="" class="sidenav-trigger" data-target="mobile-menu"><i class="material-icons">menu</i></a>
+      
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="dashboard">Dashboard</a></li>
+     <li><a th:href="@{/user/logout/{id}(id=${username})}">Logout</a></li>
+     <span id="userx" th:name="${username}"></span>
+      </ul>
+    
+      <ul class="sidenav grey lighten-2" id="mobile-menu">
+        <li><a href="dashboard">dashboard</a></li>
+        <li><a href="/user/logout">LogOut</a></li>
+    
+      </ul>
+      </div>
+    </div>
+  </nav>
+ 
+ <div class="container">
+  <div class="row" id="update">
+    <div class="col s12 m6">
+  <div class="card" th:each="vehicle:${vehicleDetails}" >
+    <div class="card-image waves-effect waves-block waves-light">
+      <img class="activator" th:src="@{/images/{image}(image=${vehicle.image})}">
+    </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4" ><b><span th:text="${vehicle.brand}"></span></b><i class="material-icons right">more_vert</i></span>
+      <p><b>Mileage: </b> <span th:text="${vehicle.mileage}"></span></p>
+      <p><b>Engine: </b><span th:text="${vehicle.engine}"></span></p>
+      <p><b>Price: </b><span th:text="${vehicle.price}"></span></p>
+      <p><b>Available: </b><span th:text="${vehicle.Quantity}"></span></p>
+      
+   </div>
+    
+<div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+      <p>Here is some more information about this product that is only revealed once clicked on.</p>
+    </div>
+  </div>
+ </div>
+ </div>
+ </div>
+   <script>
+    $(document).ready(function(){
+      $('.sidenav').sidenav();
+    });
+  function buy(){
+	  if (confirm("Do you really want to Buy?")){
+		  window.location.href="loginpage";
+	  }
+	  else{
+		  return false;
+	  }
+  }
+function buyProduct(vehicleId){
+    if (confirm("Do you really want to Buy?")){
+    	var url = 'user';
+    	var form = $('<form action="' + url + '" method="post">' +
+    	  '<input type="text" name="id" value="' + vehicleId + '" />' +
+    	  '</form>');
+    	$('body').append(form);
+    	form.submit();
+    }  	else
+        return false;
+	console.log(vehicleId);
+}
+
+function reorderProduct(id){
+	console.log(id);
+	$.post("reorder",
+		    {
+		      id: id,
+		     
+		    },
+		    function(data,status){
+		      alert("Data: " + data + "\nStatus: " + status);
+		    });
+	
+}
+
+function filterResult(){
+    
+    var user=$("#searchCar").val();
+    console.log(user);
+    var url = 'getresult';
+	var form = $('<form action="' + url + '" method="post">' +
+	  '<input type="text" name="name" value="' + user + '" />' +
+	  '</form>');
+	$('body').append(form);
+	form.submit();
+} 
+  
+  
+function filterName(){
+    var user=$("#searchCar").val();
+	
+	$.post("getresult",
+		    {
+		      name: user,
+		     
+		    },
+		    function(data,status){
+		    	if(data)
+		    $('body').html(data);
+		    });
+	
+
+} 
+  </script>
+  </body>
+
+</html>

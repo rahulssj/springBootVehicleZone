@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>UserRegistration</title>
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+         
+  </head>
+
+  <body>
+ <div class="container">
+<div class="row" id="update">
+    <div class="col s12 m6">
+  <div class="card"  >
+    <div class="card-image waves-effect waves-block waves-light">
+      <img class="activator" th:src="@{images/{image}(image=${vehicle.image})}">
+    </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4" ><b><span th:text="${vehicle.brand}"></span></b><i class="material-icons right">more_vert</i></span>
+      <p><b>Mileage: </b> <span th:text="${vehicle.mileage}"></span></p>
+      <p><b>Engine: </b><span th:text="${vehicle.engine}"></span></p>
+      <p><b>Price: </b><span th:text="${vehicle.price}"></span></p>
+   
+    </div>
+    
+<div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+      <p>Here is some more information about this product that is only revealed once clicked on.</p>
+    </div>
+  </div>
+ </div>
+ </div>
+</div>
+   <script>
+
+  </script>
+  </body>
+
+</html>

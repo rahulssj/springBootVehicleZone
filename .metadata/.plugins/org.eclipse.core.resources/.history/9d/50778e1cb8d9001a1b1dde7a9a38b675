@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>VehicleZone</title>
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+         <style>
+         .inline-icon {
+   vertical-align: bottom;
+   font-size: 18px !important;
+}
+         </style>
+  </head>
+
+  <body>
+  <nav>
+    <div class="nav-wrapper blue darken-3">
+    <div class="container">
+    
+      <a href="#" class="brand-logo">VehicleZone</a>
+      <a href="" class="sidenav-trigger" data-target="mobile-menu"><i class="material-icons">menu</i></a>
+      
+      <ul th:unless="${stat}" id="nav-mobile" class="right hide-on-med-and-down">
+        
+        <li>    
+                   <div class="center row">
+                      <div class="col s12 " >
+                        <div class="row" id="topbarsearch">
+                          <div class="input-field col s6 s12 white-text">
+                            
+                            <input type="text" placeholder="search" id="searchCar" class="autocomplete white-text">
+                            
+                            
+                            </div>
+                          </div>
+                        </div>
+                      </div>          
+                  </li>     
+                 <li> <a class="waves-effect waves-light btn red darken-2"  onclick="filterName()" ><i class="white-text material-icons prefix">search</i></a>
+                     </li>
+                                         
+        <li><a href="user/register">Register</a></li>
+        
+        <li><a href="user/loginpage">Login</a></li>
+     
+     
+      </ul>
+      <ul th:if="${stat}" id="nav-mobile" class="right hide-on-med-and-down">
+        
+        <li>    
+                   <div class="center row">
+                      <div class="col s12 " >
+                        <div class="row" id="topbarsearch">
+                          <div class="input-field col s6 s12 white-text">
+                            
+                            <input type="text" placeholder="search" id="searchCar" class="autocomplete white-text">
+                            
+                            
+                            </div>
+                          </div>
+                        </div>
+                      </div>          
+                  </li>     
+                 <li> <a class="waves-effect waves-light btn red darken-2"  onclick="filterName()" ><i class="white-text material-icons prefix">search</i></a>
+                     </li>
+                                         
+        <li><a href="user/dashboard">Dashboard</a></li>
+        
+        <li><a href="/">Home</a></li>
+      <li><a class="waves-effect waves-light btn"><i class="material-icons left">shopping_cart</i><sup>1</sup style="margin-right:7px;"></a>
+        
+      </li>
+     
+     <li><a th:href="@{user/logout/{id}(id=${logoutLink})}">Logout</a></li>
+     <span id="userx" th:name="${logoutLink}"></span>
+      </ul>
+    
+      <ul class="sidenav grey lighten-2" id="mobile-menu">
+        <li><a href="/">dashboard</a></li>
+        <li><a href="about">About Us</a></li>
+    
+      </ul>
+      </div>
+    </div>
+  </nav>
+ <div class="container">
+  
+  <div class="row" id="update">
+    <div class="col s12 m6">
+  <div class="card" th:each="vehicle:${vehicleDetails}" >
+    <div class="card-image waves-effect waves-block waves-light">
+      <img class="activator" th:src="@{images/{image}(image=${vehicle.image})}">
+    </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4" ><b><span th:text="${vehicle.brand}"></span></b><i class="material-icons right">more_vert</i></span>
+      <p><b>Mileage: </b> <span th:text="${vehicle.mileage}"></span></p>
+      <p><b>Engine: </b><span th:text="${vehicle.engine}"></span></p>
+      <p><b>Price: </b><span th:text="${vehicle.price}"></span></p>
+      <p><b>Available: </b><span th:text="${vehicle.Quantity}"></span></p>
+      
+<center><a class="waves-effect waves-light btn" th:attr="onclick=|buy('${stat}','${vehicle.id}')|"  th:disabled="${vehicle.disabled}">Buy</a>
+ <a class="waves-effect waves-light btn orange darken-2" th:attr="onclick=|AddCart('${stat}','${vehicle.id}')|"  th:disabled="${vehicle.disabled}">Add</a></center>
+ 
+    <div th:unless="${vehicle.quantity}">
+<!-- <a class="waves-effect waves-light btn red darken-2" th:attr="onclick=|reorderProduct('${vehicle.id}','${stat}')|" >Request</a> -->
+</div>
+    </div>
+    
+<div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">CAR DETAILS<i class="material-icons right">close</i></span>
+        <p><b>Brand: </b> <span th:text="${vehicle.brand}"></span></p>
+       <p><b>Model: </b> <span th:text="${vehicle.model}"></span></p>
+      
+       <p><b>Mileage: </b> <span th:text="${vehicle.mileage}"></span></p>
+      <p><b>Engine: </b><span th:text="${vehicle.engine}"></span></p>
+      <p><b>Price: </b><span th:text="${vehicle.price}"></span></p>
+      <p><b>Available: </b><span th:text="${vehicle.Quantity}"></span></p>
+     
+    </div>
+  </div>
+ </div>
+ </div>
+ </div>
+   <script>
+  
+   
+   
+   $(document).ready(function(){
+      $('.sidenav').sidenav();
+   console.log(localStorage.getItem("cart")); 
+   
+   });
+  function buy(status,id){
+	  
+	  if(status=="true"){
+		  console.log(status);
+		  var user=$('#userx').attr("name");
+		  console.log(user);
+		  window.location.href="user/product/"+user+"?vehicle_id="+id;
+	  }
+	  else{
+	  if (confirm("Do you really want to Buy?")){
+		  window.location.href="user/loginpage";
+	  }
+	  else{
+		  return false;
+	  }}
+  }
+function buyProduct(vehicleId){
+    if (confirm("Do you really want to Buy?")){
+    	var url = 'user';
+    	var form = $('<form action="' + url + '" method="post">' +
+    	  '<input type="text" name="id" value="' + vehicleId + '" />' +
+    	  '</form>');
+    	$('body').append(form);
+    	form.submit();
+    }  	else
+        return false;
+	console.log(vehicleId);
+}
+
+function reorderProduct(id,status){
+	if(status=="false"){
+		alert("please login to request order");
+	window.location.href="/user/loginpage";
+	}
+	else{
+		 var user=$('#userx').attr("name");
+	console.log(id);
+	$.post("reorder",
+		    {
+		      id: id,
+		      username:user,
+		     
+		    },
+		    function(data,status){
+		      alert("Data: " + data + "\nStatus: " + status);
+		    });
+	
+}
+
+}
+
+function filterResult(){
+    
+    var user=$("#searchCar").val();
+    console.log(user);
+    var url = 'getresult';
+	var form = $('<form action="' + url + '" method="post">' +
+	  '<input type="text" name="name" value="' + user + '" />' +
+	  '</form>');
+	$('body').append(form);
+	form.submit();
+} 
+  
+  
+function filterName(){
+    var user=$("#searchCar").val();
+	
+	$.post("getresult",
+		    {
+		      name: user,
+		     
+		    },
+		    function(data,status){
+		    	if(data)
+		    $('body').html(data);
+		    });
+	
+
+} 
+
+function AddCart(x,y){
+	
+	console.log(x);
+	console.log(y);
+	let c=parseInt(localStorage.getItem("cart"));
+	
+	if(localStorage.getItem("cart")!=null){
+	localStorage.setItem("cart",c+1 );
+	}
+	else{
+		localStorage.setItem("cart",1 );
+			
+	}
+
+}
+  </script>
+  </body>
+
+</html>

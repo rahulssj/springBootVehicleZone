@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>VehicleZone</title>
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+  
+  </head>
+
+  <body>
+  <nav>
+    <div class="nav-wrapper blue darken-3">
+    <div class="container">
+    
+      <a href="#" class="brand-logo">VehicleZone</a>
+      <a href="" class="sidenav-trigger" data-target="mobile-menu"><i class="material-icons">menu</i></a>
+      
+      <ul th:unless="${stat}" id="nav-mobile" class="right hide-on-med-and-down">
+        
+        <li>    
+                   <div class="center row">
+                      <div class="col s12 " >
+                        <div class="row" id="topbarsearch">
+                          <div class="input-field col s6 s12 white-text">
+                            
+                            <input type="text" placeholder="search" id="searchCar" class="autocomplete white-text">
+                            
+                            
+                            </div>
+                          </div>
+                        </div>
+                      </div>          
+                  </li>     
+                 <li> <a class="waves-effect waves-light btn red darken-2"  onclick="filterName()" ><i class="white-text material-icons prefix">search</i></a>
+                     </li>
+                                         
+        <li><a href="user/register">Register</a></li>
+        
+        <li><a href="user/loginpage">Login</a></li>
+     
+     
+      </ul>
+      <ul th:if="${stat}" id="nav-mobile" class="right hide-on-med-and-down">
+        
+        <li>    
+                   <div class="center row">
+                      <div class="col s12 " >
+                        <div class="row" id="topbarsearch">
+                          <div class="input-field col s6 s12 white-text">
+                            
+                            <input type="text" placeholder="search" id="searchCar" class="autocomplete white-text">
+                            
+                            
+                            </div>
+                          </div>
+                        </div>
+                      </div>          
+                  </li>     
+                 <li> <a class="waves-effect waves-light btn red darken-2"  onclick="filterName()" ><i class="white-text material-icons prefix">search</i></a>
+                     </li>
+                                         
+        <li><a href="user/dashboard">Dashboard</a></li>
+        
+        <li><a href="/">Home</a></li>
+      <li><a class="waves-effect waves-light blue darken-3 btn modal-trigger" href="#modal1"><i class="material-icons left" onclick="showcart()">shopping_cart</i><sup id="cart" style="margin-left:-22px;">1</sup></a>
+       
+      </li>
+     
+     <li><a th:href="@{user/logout/{id}(id=${logoutLink})}">Logout</a></li>
+     <span id="userx" th:name="${logoutLink}"></span>
+      </ul>
+    
+      <ul class="sidenav grey lighten-2" id="mobile-menu">
+        <li><a href="/">dashboard</a></li>
+        <li><a href="about">About Us</a></li>
+    
+      </ul>
+      </div>
+    </div>
+  </nav>
+   <!-- Modal Structure -->
+   <div id="modal1" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <div id="cartshow">
+     <h4>Your Cart</h4>
+      <b><p id="tc"></p></b>
+      
+      
+       <table>
+        <thead>
+          <tr>
+              <th>Product</th>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+          </tr>
+        </thead>
+
+        <tbody class="cartTable">
+          
+
+        </tbody>
+      </table>
+            
+      </div>
+    </div>
+    <div class="modal-footer">
+    <b>Total Amount: <p id="amt"></p></b>
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat orange lighten-1" onclick="buyCartItems()">checkout</a>
+    </div>
+  </div>
+ <div class="container">
+  
+  <div class="row" id="update">
+    <div class="col s12 m6">
+  <div class="card" th:each="vehicle:${vehicleDetails}" >
+    <div class="card-image waves-effect waves-block waves-light">
+      <img class="activator" th:src="@{images/{image}(image=${vehicle.image})}">
+    </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4" ><b><span th:text="${vehicle.brand}"></span></b><i class="material-icons right">more_vert</i></span>
+      <p><b>Mileage: </b> <span th:text="${vehicle.mileage}"></span></p>
+      <p><b>Engine: </b><span th:text="${vehicle.engine}"></span></p>
+      <p><b>Price: </b><span th:text="${vehicle.price}"></span></p>
+      <p><b>Available: </b><span th:text="${vehicle.Quantity}"></span></p>
+      
+<center><a class="waves-effect waves-light btn" th:attr="onclick=|buy('${stat}','${vehicle.id}')|"  th:disabled="${vehicle.disabled}">Buy</a>
+ <a th:if="${stat}" class="waves-effect waves-light btn orange darken-2" th:attr="onclick=|AddCart('${stat}','${vehicle.id}')|"  th:disabled="${vehicle.disabled}">Add</a></center>
+ 
+    <div th:unless="${vehicle.quantity}">
+<a class="waves-effect waves-light btn red darken-2" th:attr="onclick=|reorderProduct('${vehicle.id}','${stat}')|" >Request</a>
+</div>
+    </div>
+    
+<div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">CAR DETAILS<i class="material-icons right">close</i></span>
+        <p><b>Brand: </b> <span th:text="${vehicle.brand}"></span></p>
+       <p><b>Model: </b> <span th:text="${vehicle.model}"></span></p>
+      
+       <p><b>Mileage: </b> <span th:text="${vehicle.mileage}"></span></p>
+      <p><b>Engine: </b><span th:text="${vehicle.engine}"></span></p>
+      <p><b>Price: </b><span th:text="${vehicle.price}"></span></p>
+      <p><b>Available: </b><span th:text="${vehicle.Quantity}"></span></p>
+     
+    </div>
+  </div>
+ </div>
+ </div>
+ </div>
+   <script>
+  let product={
+		  
+		  vehicle:"",
+			  incart:0,
+  }
+   
+   
+   $(document).ready(function(){
+      $('.sidenav').sidenav();
+      $('.modal').modal();
+      console.log(localStorage.getItem("cart")); 
+  $('#cart').text(localStorage.getItem("cart")); 
+   
+   });
+  function buy(status,id){
+	  
+	  if(status=="true"){
+		  console.log(status);
+		  console.log("inside buy");
+		  var user=$('#userx').attr("name");
+		  console.log(user);
+		  var url="user/product/"+user+"?vehicle_id="+id;
+		  console.log(url);
+		  window.location.href="user/product/"+user+"?vehicle_id="+id;
+	  }
+	  else{
+	  if (confirm("Do you really want to Buy?")){
+		  window.location.href="user/loginpage";
+	  }
+	  else{
+		  return false;
+	  }}
+  }
+function buyProduct(vehicleId){
+    if (confirm("Do you really want to Buy?")){
+    	var url = 'user';
+    	var form = $('<form action="' + url + '" method="post">' +
+    	  '<input type="text" name="id" value="' + vehicleId + '" />' +
+    	  '</form>');
+    	$('body').append(form);
+    	form.submit();
+    }  	else
+        return false;
+	console.log(vehicleId);
+}
+
+function reorderProduct(id,status){
+	if(status=="false"){
+		alert("please login to request order");
+	window.location.href="/user/loginpage";
+	}
+	else{
+		 var user=$('#userx').attr("name");
+	console.log(id);
+	$.post("reorder",
+		    {
+		      id: id,
+		      username:user,
+		     
+		    },
+		    function(data,status){
+		      alert("Data: " + data + "\nStatus: " + status);
+		    });
+	
+}
+
+}
+
+function filterResult(){
+    
+    var user=$("#searchCar").val();
+    console.log(user);
+    var url = 'getresult';
+	var form = $('<form action="' + url + '" method="post">' +
+	  '<input type="text" name="name" value="' + user + '" />' +
+	  '</form>');
+	$('body').append(form);
+	form.submit();
+} 
+  
+  
+function filterName(){
+    var user=$("#searchCar").val();
+	
+	$.post("getresult",
+		    {
+		      name: user,
+		     
+		    },
+		    function(data,status){
+		    	if(data)
+		    $('body').html(data);
+		    });
+	
+
+} 
+
+function AddCart(x,vehicleid){
+	
+	console.log(x);
+	console.log([vehicleid]);
+	let c=parseInt(localStorage.getItem("cart"));
+	var price=0;
+	
+	$.post('handleCart',
+			
+	{
+		vehicleid:vehicleid,
+	},
+	function(data,status){
+		console.log(data);
+		vehicle=JSON.parse(data);
+		console.log(vehicle.brand);
+		vid="vehicle"+vehicle.id;
+		price=vehicle.price;
+		console.log(vid);
+		product={
+				 vehicle:vehicle,
+				 incart:0
+				
+		}
+		var cost=localStorage.getItem("totalcost");
+
+		
+		if(cost!=null){
+			var c=parseInt(cost);
+			console.log(cost);
+			localStorage.setItem("totalcost",+vehicle.price+c);
+		}
+		else{
+			localStorage.setItem("totalcost",vehicle.price);
+		}
+
+		console.log(cost);		
+	let products=JSON.parse(localStorage.getItem("products"));
+	if(products!=null){
+		
+		if(products[vid]==undefined){
+			product.incart=1;
+		products={
+				...products,
+				[vid]:product
+		}
+		}
+		else{
+		products[vid].incart+=1;
+		}
+		console.log("products");
+	console.log(products[vid]);
+		
+	}
+	else{
+
+	product.incart=1;
+	products={
+			[vid]:product,
+	}
+	
+	console.log(products);
+
+	}
+	localStorage.setItem("products",JSON.stringify(products));
+	
+	}
+	);
+	
+	if(localStorage.getItem("cart")!=null){
+	localStorage.setItem("cart",c+1 );
+	$('#cart').text(localStorage.getItem("cart"));
+	}
+	else{
+		localStorage.setItem("cart",1 );
+		
+		$('#cart').text("1");				
+	}
+
+
+}
+
+function removeCart(x,y){
+	
+}
+
+function totalcost(price){
+	console.log(price);
+	var cost=parseInt(localStorage.getItem("totalcost"));
+	
+	
+if(cost!=null){
+	
+	console.log(cost);
+	localStorage.setItem("totalcost",+price);
+}
+else{
+	localStorage.setItem("totalcost",price);
+}
+
+}
+
+function showcart(){
+	
+	let cartItems=JSON.parse(localStorage.getItem("products"));
+	let total=parseFloat(localStorage.getItem("totalcost"));
+	let totalitems=parseInt(localStorage.getItem("cart"));
+$('#amt').text("Rs."+total);
+$('#tc').text("Total Items In a Cart : "+totalitems);
+product=document.querySelector(".cartTable");
+product.innerHTML='';
+Object.values(cartItems).map(item => {
+product.innerHTML+=`<tr><td><img src="/images/${item.vehicle.image}" style="width:100px;"/></td><td>${item.vehicle.brand}</td><td>${item.incart}</td><td>${item.vehicle.price}</td></tr>`;	
+
+});
+
+
+
+}
+function buyCartItems(){
+	
+	let cart=JSON.parse(localStorage.getItem("products"));	
+	let myhashmap={};
+	Object.values(cart).map(item=>{
+
+		myhashmap[item.vehicle.id]=item.incart
+	});
+	
+	
+
+	$.ajax({
+	    url : "cartBuy",
+	    type: "POST",
+	    data : JSON.stringify(myhashmap),
+	    contentType: "application/json",
+	    success: function(data, textStatus, jqXHR)
+	    {
+	    	console.log(data);
+	    	if(data=="success"){
+	    		let total=parseFloat(localStorage.getItem("totalcost"));
+	    		window.location.href="cartRequest";
+	    	}
+	        //data - response from server
+	    },
+	    error: function (jqXHR, textStatus, errorThrown)
+	    {
+	 
+	    }
+	});
+	
+	console.log(myhashmap);
+
+	}
+</script>
+  </body>
+
+</html>

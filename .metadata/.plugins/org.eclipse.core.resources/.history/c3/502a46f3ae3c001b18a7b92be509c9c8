@@ -1,0 +1,4 @@
+spring.mvc.view.prefix=/views/
+spring.mvc.view.suffix=.html
+STRIPE_PUBLIC_KEY=sk_test_51HC8BeH4CwYUsEtsRgmPqIVBCoNIvqvURXLrsSiGR1cHeKWsQ6z6HoAJCvStx1CvR7pZYWwkiJFlYC22EFmaT7v200jt4rf0iU
+application.server=8081

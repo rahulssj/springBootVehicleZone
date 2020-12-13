@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Register</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</head>
+<body>
+   <div class="container">
+       <h1>Register Here</h1>
+  <div class="row">
+    <div class="col s12 m6">
+      <div class="card grey lighten-3">
+        <div class="card-content black-text">
+          
+          <span class="card-title"><b>User Registration</b></span>
+          
+        <div class="row">
+            
+        <form  action="registerUser"  method="POST">
+            
+
+<div class="row">
+            <div class="input-field col s6">
+              <input placeholder="name" id="name" type="text" class="validate" name="name" required>
+              <label for="name">Name</label>
+            </div>
+        </div>
+ 
+    
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="email" type="email" class="validate" onchange="checkemail()" name="email"><span id="em" style="visibility:hidden;">Email already Exist</span>
+          <label for="email">Email</label>
+          <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+        </div>
+      </div>
+            
+                 <div class="row">
+        <div class="input-field col s6">
+        <p>
+      <label>
+        <input class="with-gap" name="gender" type="radio" value="male" checked />
+        <span>Male</span>
+      </label>
+      <label>
+        <input class="with-gap" name="gender" type="radio"  value="female"/>
+        <span>Female</span>
+      </label>
+    </p>
+    
+    </div>
+        </div>
+<div class="row">
+            <div class="input-field col s6">
+              <input placeholder="username" id="username" type="text" class="validate" onchange="checkuser()" name="username" required><span id="un" style="visibility:hidden;">Username already Exist</span>
+              <label for="username">UserName</label>
+            </div>
+        </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="password" type="password" class="validate" name="password" required>
+              <label for="password">Password</label>
+            </div>
+          </div>
+ 
+          <button class="btn waves-effect waves-light green lighten-1" type="submit" name="action">Submit
+          </button>
+        </form>
+      </div>
+         
+          </div>
+        <div class="card-action">
+          <a href="register"></a>
+          <a href="forgotPassword"></a>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  function checkemail(){
+	  var email=$('#email').val();
+	  $.post('/user/checkemail',
+		{
+		  email:email,
+		},
+		function(data,status){
+			if(data=="found"){
+				$('#em').show();
+				$('#em').css("visibility","visible");
+			}
+			else{
+				$('#em').css("visibility","hidden");
+					$('#em').hide();
+			}
+			
+		}
+	  );
+	  
+	  
+	  
+  }
+  
+  function checkuser(){
+	  
+	  var user=$('#username').val();
+	 console.log(user);
+	  
+	 
+	 $.post('/user/checkuser',
+		{
+		  user:user,
+		},
+		function(data,status){
+			if(data=="found"){
+				$('#un').show();
+				$('#un').css("visibility","visible");
+					}
+			else{
+				$('#un').css("visibility","hidden");
+				$('#un').hide();
+			}
+		}
+	  );
+	  
+	  
+	  
+  }
+        
+  
+  </script>
+         </body>
+ </html>

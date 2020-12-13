@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>VehicleZone</title>
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+         
+  </head>
+
+  <body>
+  <nav>
+    <div class="nav-wrapper blue darken-3">
+    <div class="container">
+    
+      <a href="#" class="brand-logo">VehicleZone</a>
+      <a href="" class="sidenav-trigger" data-target="mobile-menu"><i class="material-icons">menu</i></a>
+      
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="dashboard">Dashboard</a></li>
+     <li><a th:href="@{/vendor/logout/{id}(id=${username})}">Logout</a></li>
+     <span id="userx" th:name="${username}"></span>
+      </ul>
+    
+      <ul class="sidenav grey lighten-2" id="mobile-menu">
+        <li><a href="dashboard">dashboard</a></li>
+        <li><a href="/vendor/logout">LogOut</a></li>
+    
+      </ul>
+      </div>
+    </div>
+  </nav>
+ 
+ <div class="container">
+ <table class="stripped">
+        <thead>
+          <tr>
+              <th>Id</th>
+              <th>UserName</th>
+              <th>VehicleId</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Update</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr th:each="data:${requests}">
+            <td th:text="${data.id}"></td>
+            <td th:text="${data.username}"></td>
+            <td th:text="${data.vehicleid}"></td>
+            <td th:text="${data.date}"></td>
+             <td th:text="${data.status}"></td>
+            <td >   <button class="btn waves-effect waves-light green lighten-1" type="submit" name="action" th:attr="onclick=|accept('${data.id}','${data.vehicleid}')|">Accept
+          </button>
+       </td>
+          </tr>
+          
+        </tbody>
+      </table>
+</div>
+   <script>
+
+ function accept(id,vid){
+	console.log(id);
+	console.log(vid);
+	
+	 $.post('acceptRequest',
+			 
+	 {
+			 vehicleid:vid,
+			 id:id,
+	 },
+	 function(data,status){
+		 
+		 if(data=="success"){
+			 
+			window.location.reload();	 
+		 }
+		 else{
+			 alert("Error Accepting ");
+		 }
+		 
+	 }
+	 )
+ 
+ }
+  </script>
+  </body>
+
+</html>

@@ -1,0 +1,54 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Product</title>
+      
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            
+    
+</head>
+<body>
+   <div class="container">
+  <div class="row">
+    <div class="col s12 m6">
+      <div class="card grey lighten-3">
+        <div class="card-content black-text">
+          <span class="card-title">CARD DETAILSXXXXXXXXXX</span>
+        <div class="row">
+        <b>Pay Amount:</b><span th:text="${amount}"></span>
+        <form  action="pay" method="POST">
+            
+            
+          <div class="row">
+            <div class="input-field col s6">
+              <input placeholder="Enter DebitCard" id="address1" type="text" class="validate" name="debit" required>
+              <label for="address1"></label>
+               
+            </div>
+        </div>
+        
+          <button class="btn waves-effect waves-light green lighten-1" type="submit" name="action">Pay
+          </button>
+        </form>
+      </div>
+         
+          </div>
+       </div>
+    </div>
+  </div>
+  </div>
+  <script>
+  
+  </script>
+  
+         </body>
+ </html>

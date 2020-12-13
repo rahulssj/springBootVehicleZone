@@ -1,0 +1,122 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Product</title>
+      
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            
+    
+</head>
+<body>
+   
+   <div class="container" id="pass">
+  <div class="row">
+    <div class="col s12 m6">
+      <div class="card grey lighten-3">
+        <div class="card-content black-text">
+          <span class="card-title">ForgotPassword</span>
+        
+        <div class="row">
+            
+            
+            
+          <div class="row">
+            <div class="input-field col s6">
+            <form>
+              <input placeholder="Enter username" id="username" type="text" class="validate" name="username" required>
+              <label for="username"></label>
+               </form>
+            </div>
+        </div>
+        
+          <button class="btn waves-effect waves-light green lighten-1" type="submit" name="action" onclick="checkUser()">Submit
+          </button>
+      </div>
+         
+          </div>
+       </div>
+    </div>
+  </div>
+  </div>
+  <script>
+  function checkUser(){
+	  
+  var user=$('#username').val();
+  if(user==null || user==""){
+	  alert("enter username required");
+	  windows.location.href="/user/forgotPassword";
+  }
+  $.post("checkuser",
+		    {
+		      
+		      user:user,
+		     
+		    },
+		    function(data,status){
+		    	console.log(data);
+		    	if(data=="found"){
+ 		    	var html=$('<div class="row"><div class="col s12 m6"><div class="card grey lighten-3"><div class="card-content black-text"><span class="card-title">Password</span><div class="row"><div class="row" id="user_name" name="'+user+' "> <div class="input-field col s6"><input placeholder="Enter Password" id="password" type="password" class="validate" name="password" required><label for="password"></label></div></div><div class="row"> <div class="input-field col s6"><input placeholder="Enter Re-Password" id="repassword" type="password" class="validate" name="repassword" required><label for="repassword"></label></div></div><div class="input-field col s6"><input placeholder="Enter Re-Password" id="userY" value="'+user+'" type="text" class="validate" name="repassword" required style="visibility:hidden;"><label for="repassword"></label></div></div><button class="btn waves-effect waves-light green lighten-1" type="submit" name="action" onclick="checkPassword()">Change</button></div> </div></div></div</div>');
+		    	$('#pass').html(html);
+		    
+		    	
+		    	
+		    	}
+		    	else{
+		      alert("username is invalid");
+		      return false;}
+		    });
+  
+  }
+  
+  function checkPassword(){
+	  var x=$('#password').val();
+	  var y=$('#repassword').val();
+	  var z=$('#user_name').attr('name');
+	  var user=$('#userY').val();
+	  if(x==""||y==""){
+		  alert("password required");
+		  windows.location.href="/user/forgotPassword";
+	  }
+	  console.log(user);
+	  if(x.localeCompare(y)==0){
+	console.log("match");
+	$.post('resetpassword',
+	{
+		username:user,
+		password:x,
+	},
+	function(data,status){
+		console.log(data);
+		if(data=="success"){
+			
+			alert("Password Changed Successfully");
+			window.location.href="loginpage";
+		}
+		else{
+			alert("Error Changing Password");
+		}
+		
+	}
+	);
+		  
+	  
+	  }
+	  
+	  else{
+		  
+		  alert("Password not Matched");
+	  }
+}
+  </script>
+  
+         </body>
+ </html>
